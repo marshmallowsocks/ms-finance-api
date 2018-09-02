@@ -6,10 +6,12 @@ import com.marshmallowsocks.msfinance.data.accesstoken.AccessToken;
 import com.marshmallowsocks.msfinance.data.accesstoken.AccessTokenRepository;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import retrofit2.Response;
 
 import java.util.List;
 
+@Component
 public class AccessTokenService implements ServiceBase {
 
     private String userId;
