@@ -2,7 +2,9 @@ package com.marshmallowsocks.msfinance.core;
 
 import com.marshmallowsocks.msfinance.config.PlaidConfiguration;
 import com.plaid.client.PlaidClient;
+import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.TransactionsGetRequest;
+import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,17 @@ public class MSPlaidClient {
 
     public PlaidClient client() {
         return client;
+    }
+
+    public Response<ItemPublicTokenExchangeResponse> exchangePublicToken(String publicToken) {
+        try {
+            return client.service()
+                .itemPublicTokenExchange(
+                        new ItemPublicTokenExchangeRequest(publicToken)
+                ).execute();
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     public Response<TransactionsGetResponse> getTransactionsFor(String accessToken) {
