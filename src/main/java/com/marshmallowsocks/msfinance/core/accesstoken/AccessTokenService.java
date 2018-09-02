@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import retrofit2.Response;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class AccessTokenService implements ServiceBase {
@@ -28,7 +29,11 @@ public class AccessTokenService implements ServiceBase {
 
 
     public List<AccessToken> fetchAll() {
-        return accessTokenRepository.findByUserId(getUserId());
+        List<AccessToken> accessTokens = accessTokenRepository.findByUserId(getUserId());
+        return accessTokens
+                .stream()
+                .peek(accessToken -> accessToken.userId = null)
+                .collect(Collectors.toList());
     }
 
     public ItemPublicTokenExchangeResponse exchangePublicToken(String publicToken) {
