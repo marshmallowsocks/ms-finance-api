@@ -43,7 +43,7 @@ public class JwtTokenManager {
     public boolean isInvalid(String token) {
         return invalidTokens
             .stream()
-            .anyMatch(jwtToken -> jwtToken.getToken().equals(token) && !jwtToken.isExpired());
+            .anyMatch(jwtToken -> jwtToken.getToken().equals(token));
     }
 
     @Scheduled(fixedRate = 60000)
