@@ -37,6 +37,10 @@ public class JwtTokenManager {
             invalidTokens.add(finalToken);
         }
 
+        else {
+            invalidTokens.add(token);
+        }
+
         // nothing to do, min returns null on empty set.
     }
 
