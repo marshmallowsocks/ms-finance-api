@@ -4,7 +4,7 @@ import com.marshmallowsocks.msfinance.data.institutions.Institution;
 import com.marshmallowsocks.msfinance.user.model.User;
 import com.plaid.client.response.TransactionsGetResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,18 +21,14 @@ public class InstitutionController {
     }
 
     @GetMapping("/all")
-    public List<Institution> getAllInstitutions(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+    public List<Institution> getAllInstitutions(@AuthenticationPrincipal final User user) {
         institutionService.setUserId(user.getId());
-
         return institutionService.getAllInstitutions();
     }
 
     @PostMapping("/transactions")
-    public TransactionsGetResponse getTransactions(Authentication authentication, @RequestParam(value = "itemId") String itemId) {
-        User user = (User) authentication.getPrincipal();
+    public TransactionsGetResponse getTransactions(@AuthenticationPrincipal final User user, @RequestParam(value = "itemId") String itemId) {
         institutionService.setUserId(user.getId());
-
         return institutionService.getTransactionsForItem(itemId);
     }
 }

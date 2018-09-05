@@ -4,7 +4,7 @@ import com.marshmallowsocks.msfinance.core.response.CreateGroupResponse;
 import com.marshmallowsocks.msfinance.data.groups.Group;
 import com.marshmallowsocks.msfinance.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,27 +21,24 @@ public class GroupController {
     }
 
     @GetMapping("/all")
-    public List<Group> getAllGroups(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+    public List<Group> getAllGroups(@AuthenticationPrincipal final User user) {
         groupService.setUserId(user.getId());
         return groupService.getGroups();
     }
 
     @PostMapping("/create")
     public CreateGroupResponse createGroup(
-            Authentication authentication,
+            @AuthenticationPrincipal final User user,
             @RequestParam(name = "name") String name,
             @RequestParam(name = "accounts") List<String> accounts) {
-        User user = (User) authentication.getPrincipal();
         groupService.setUserId(user.getId());
         return groupService.createGroup(name, accounts);
     }
 
     @DeleteMapping("/delete")
     public boolean deleteGroup(
-            Authentication authentication,
+            @AuthenticationPrincipal User user,
             @RequestParam(name = "groupId") String groupId) {
-        User user = (User) authentication.getPrincipal();
         groupService.setUserId(user.getId());
         return groupService.deleteGroup(groupId);
     }

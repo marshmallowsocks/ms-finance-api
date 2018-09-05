@@ -4,8 +4,8 @@ import java.util.Map;
 
 public interface TokenService {
 
-    String permanent(Map<String, String> attributes);
-    String expiring(Map<String, String> attributes);
+    JwtToken permanent(Map<String, String> attributes);
+    JwtToken expiring(Map<String, String> attributes);
 
     /**
      * Checks the validity of the given credentials.
@@ -23,5 +23,5 @@ public interface TokenService {
      */
     Map<String, String> verify(String token);
 
-    void invalidate(String token);
+    void invalidate(JwtToken token);
 }

@@ -1,5 +1,6 @@
 package com.marshmallowsocks.msfinance.auth.service;
 
+import com.marshmallowsocks.msfinance.auth.token.JwtToken;
 import com.marshmallowsocks.msfinance.auth.token.TokenService;
 import com.marshmallowsocks.msfinance.user.model.User;
 import com.marshmallowsocks.msfinance.user.service.UserService;
@@ -23,7 +24,7 @@ public class TokenAuthenticationService implements AuthenticationService {
     }
 
     @Override
-    public Optional<String> login(String userName, String password) {
+    public Optional<JwtToken> login(String userName, String password) {
         Map<String, String> attributes = new HashMap<>();
         attributes.put("username", userName);
 
@@ -42,8 +43,12 @@ public class TokenAuthenticationService implements AuthenticationService {
     }
 
     @Override
-    public void logout(User user) {
-        //
+    public void logout(String token) {
+        // set token to expire 30 minutes from now.
+        // all web tokens expire in 30 minutes.
+        jwtTokenService.invalidate(
+                new JwtToken(token, System.currentTimeMillis() + (1800 * 1000)
+        ));
     }
 
 

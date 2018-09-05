@@ -1,6 +1,7 @@
 package com.marshmallowsocks.msfinance.user.controller;
 
 import com.marshmallowsocks.msfinance.auth.service.AuthenticationService;
+import com.marshmallowsocks.msfinance.auth.token.JwtToken;
 import com.marshmallowsocks.msfinance.user.service.UserService;
 import com.marshmallowsocks.msfinance.user.model.User;
 
@@ -24,7 +25,7 @@ public class PublicUsersController {
     }
 
     @PostMapping("/register")
-    String register(
+    public JwtToken register(
             @RequestParam("username") final String username,
             @RequestParam("password") final String password) {
         mongoUserService
@@ -39,7 +40,7 @@ public class PublicUsersController {
     }
 
     @PostMapping("/login")
-    String login(
+    public JwtToken login(
             @RequestParam("username") final String username,
             @RequestParam("password") final String password) {
         return authenticationService

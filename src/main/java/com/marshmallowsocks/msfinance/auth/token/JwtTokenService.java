@@ -1,7 +1,5 @@
 package com.marshmallowsocks.msfinance.auth.token;
 
-import com.marshmallowsocks.msfinance.data.authtoken.InvalidToken;
-import com.marshmallowsocks.msfinance.data.authtoken.TokenRepository;
 import com.marshmallowsocks.msfinance.util.DateService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.compression.GzipCompressionCodec;
@@ -30,7 +28,7 @@ public class JwtTokenService implements Clock, TokenService {
     private String secretKey;
 
     @Autowired
-    private TokenRepository tokenRepository;
+    private JwtTokenManager tokenManager;
 
     public JwtTokenService(
             final DateService dateService,
@@ -46,12 +44,12 @@ public class JwtTokenService implements Clock, TokenService {
     }
 
     @Override
-    public String permanent(Map<String, String> attributes) {
+    public JwtToken permanent(Map<String, String> attributes) {
         return newToken(attributes, 0);
     }
 
     @Override
-    public String expiring(Map<String, String> attributes) {
+    public JwtToken expiring(Map<String, String> attributes) {
         return newToken(attributes, expirationSec);
     }
 
@@ -69,11 +67,10 @@ public class JwtTokenService implements Clock, TokenService {
 
     @Override
     public Map<String, String> verify(String token) {
-        if(tokenRepository.findByToken(token).isPresent()) {
-            // the authtoken is invalid.
+        if(tokenManager.isInvalid(token)) {
+            // this token is blacklisted.
             return new HashMap<>();
         }
-
         JwtParser parser = Jwts
                 .parser()
                 .requireIssuer(issuer)
@@ -85,30 +82,38 @@ public class JwtTokenService implements Clock, TokenService {
     }
 
     @Override
-    public void invalidate(String token) {
-        InvalidToken tokenModel = new InvalidToken(token);
-        tokenRepository.save(tokenModel);
+    public void invalidate(JwtToken token) {
+        tokenManager.addInvalidToken(token);
     }
 
-    private String newToken(Map<String, String> attributes, int expirationSec) {
+    private JwtToken newToken(Map<String, String> attributes, int expirationSec) {
         DateTime now = dateService.now();
         final Claims claims = Jwts.claims()
                 .setIssuer(issuer)
                 .setIssuedAt(now.toDate());
 
+        DateTime expiresAt = null;
+
         if(expirationSec > 0) {
-            DateTime expiresAt = now.plusSeconds(expirationSec);
+            expiresAt = now.plusSeconds(expirationSec);
             claims.setExpiration(expiresAt.toDate());
         }
 
         claims.putAll(attributes);
 
-        return Jwts
-                .builder()
-                .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compressWith(COMPRESSION_CODEC)
-                .compact();
+        String token = Jwts
+                    .builder()
+                    .setClaims(claims)
+                    .signWith(SignatureAlgorithm.HS256, secretKey)
+                    .compressWith(COMPRESSION_CODEC)
+                    .compact();
+
+        Long expirationMillis = expiresAt == null ? -1 : expiresAt.getMillis();
+
+        return new JwtToken(
+                token,
+                expirationMillis
+        );
     }
 
     private static Map<String, String> parseClaims(Supplier<Claims> toClaims) {
