@@ -4,13 +4,13 @@ import com.marshmallowsocks.msfinance.data.accesstoken.AccessToken;
 import com.marshmallowsocks.msfinance.user.model.User;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/tokens")
+@RequestMapping(path = "/tokens", consumes = "application/json")
 public class AccessTokenController {
 
     private AccessTokenService accessTokenService;
