@@ -6,13 +6,11 @@ import com.marshmallowsocks.msfinance.user.service.UserService;
 import com.marshmallowsocks.msfinance.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/public/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PublicUsersController {
 
     private final AuthenticationService authenticationService;
