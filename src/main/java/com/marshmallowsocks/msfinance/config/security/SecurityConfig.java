@@ -3,6 +3,7 @@ package com.marshmallowsocks.msfinance.config.security;
 import com.marshmallowsocks.msfinance.auth.token.TokenAuthenticationProvider;
 import com.marshmallowsocks.msfinance.auth.token.TokenAuthenticationFilter;
 
+import com.marshmallowsocks.msfinance.config.CorsFilter;
 import com.marshmallowsocks.msfinance.config.NoRedirectStrategy;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -56,6 +58,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
+                .addFilterBefore(corsFilter(), SessionManagementFilter.class) // add cors filter
                 .sessionManagement()
                 .sessionCreationPolicy(STATELESS)
                 .and()
@@ -71,7 +74,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .csrf().disable()
-                .cors().and() // add cors support for dev
                 .formLogin().disable()
                 .httpBasic().disable()
                 .logout().disable();
@@ -82,6 +84,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         final TokenAuthenticationFilter filter = new TokenAuthenticationFilter(PROTECTED_URLS);
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(successHandler());
+        return filter;
+    }
+
+    @Bean
+    CorsFilter corsFilter() {
+        CorsFilter filter = new CorsFilter();
         return filter;
     }
 
