@@ -2,6 +2,7 @@ package com.marshmallowsocks.msfinance.user.controller;
 
 import com.marshmallowsocks.msfinance.auth.service.AuthenticationService;
 import com.marshmallowsocks.msfinance.auth.token.JwtToken;
+import com.marshmallowsocks.msfinance.user.model.UserRequest;
 import com.marshmallowsocks.msfinance.user.service.UserService;
 import com.marshmallowsocks.msfinance.user.model.User;
 
@@ -23,26 +24,22 @@ public class PublicUsersController {
     }
 
     @PostMapping("/register")
-    public JwtToken register(
-            @RequestParam("username") final String username,
-            @RequestParam("password") final String password) {
+    public JwtToken register(@RequestBody UserRequest userRequest) {
         mongoUserService
             .save(
                 new User.Builder()
-                    .withUserName(username)
-                    .withPassword(password)
+                    .withUserName(userRequest.getUsername())
+                    .withPassword(userRequest.getPassword())
                     .build()
                 );
 
-        return login(username, password);
+        return login(userRequest);
     }
 
     @PostMapping("/login")
-    public JwtToken login(
-            @RequestParam("username") final String username,
-            @RequestParam("password") final String password) {
+    public JwtToken login(@RequestBody UserRequest userRequest) {
         return authenticationService
-                .login(username, password)
+                .login(userRequest.getUsername(), userRequest.getPassword())
                 .orElseThrow(() -> new RuntimeException("invalid login and/or password"));
     }
 }
