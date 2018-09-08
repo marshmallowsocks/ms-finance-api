@@ -71,6 +71,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .csrf().disable()
+                .cors().and() // add cors support for dev
                 .formLogin().disable()
                 .httpBasic().disable()
                 .logout().disable();
