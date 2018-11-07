@@ -4,29 +4,36 @@ import com.marshmallowsocks.msfinance.core.ServiceBase;
 import com.marshmallowsocks.msfinance.core.response.CreateGroupResponse;
 import com.marshmallowsocks.msfinance.data.groups.Group;
 import com.marshmallowsocks.msfinance.data.groups.GroupRepository;
+import io.leangen.graphql.annotations.GraphQLEnvironment;
+import io.leangen.graphql.annotations.GraphQLMutation;
+import io.leangen.graphql.annotations.GraphQLQuery;
+import io.leangen.graphql.execution.ResolutionEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GroupService implements ServiceBase {
+public class GroupService {
 
     @Autowired
     private GroupRepository repository;
 
     private String userId;
 
-    public CreateGroupResponse createGroup(String name, List<String> accounts) {
+    @GraphQLMutation(name = "createGroup")
+    public CreateGroupResponse createGroup(@GraphQLEnvironment ResolutionEnvironment environment, String name, List<String> accounts) {
+        userId = environment.rootContext.toString();
         Group group = repository.save(new Group(
                 name,
                 accounts,
-                getUserId())
+                userId)
         );
 
-        return new CreateGroupResponse(false, group.id, "Successfully created group.");
+        return new CreateGroupResponse(false, group.getId(), "Successfully created group.");
     }
 
+    @GraphQLMutation(name = "deleteGroup")
     public boolean deleteGroup(String groupId) {
         try {
             repository.deleteById(groupId);
@@ -37,17 +44,9 @@ public class GroupService implements ServiceBase {
         }
     }
 
-    public List<Group> getGroups() {
-        return repository.findAll();
-    }
-
-    @Override
-    public String getUserId() {
-        return userId;
-    }
-
-    @Override
-    public void setUserId(String userId) {
-        this.userId = userId;
+    @GraphQLQuery(name = "groups")
+    public List<Group> getGroups(@GraphQLEnvironment ResolutionEnvironment environment) {
+        userId = environment.rootContext.toString();
+        return repository.getGroupsForUserId(userId);
     }
 }

@@ -5,6 +5,9 @@ import com.marshmallowsocks.msfinance.core.ServiceBase;
 import com.marshmallowsocks.msfinance.data.accesstoken.AccessToken;
 import com.marshmallowsocks.msfinance.data.accesstoken.AccessTokenRepository;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
+import io.leangen.graphql.annotations.GraphQLEnvironment;
+import io.leangen.graphql.annotations.GraphQLQuery;
+import io.leangen.graphql.execution.ResolutionEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import retrofit2.Response;
@@ -13,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class AccessTokenService implements ServiceBase {
+public class AccessTokenService {
 
     private String userId;
     private AccessTokenRepository accessTokenRepository;
@@ -27,24 +30,27 @@ public class AccessTokenService implements ServiceBase {
         this.msPlaidClient = msPlaidClient;
     }
 
-
-    public List<AccessToken> fetchAll() {
-        List<AccessToken> accessTokens = accessTokenRepository.findByUserId(getUserId());
+    @GraphQLQuery(name = "accessTokens")
+    public List<AccessToken> fetchAll(@GraphQLEnvironment ResolutionEnvironment environment) {
+        userId = environment.rootContext.toString();
+        List<AccessToken> accessTokens = accessTokenRepository.findByUserId(userId);
         return accessTokens
                 .stream()
-                .peek(accessToken -> accessToken.userId = null)
+                .peek(accessToken -> accessToken.setUserId(null))
                 .collect(Collectors.toList());
     }
 
-    public ItemPublicTokenExchangeResponse exchangePublicToken(String publicToken) {
+    @GraphQLQuery(name = "exchangePublicToken")
+    public ItemPublicTokenExchangeResponse exchangePublicToken(@GraphQLEnvironment ResolutionEnvironment environment, String publicToken) {
         Response<ItemPublicTokenExchangeResponse> response = msPlaidClient.exchangePublicToken(publicToken);
+        userId = environment.rootContext.toString();
 
         if(response.isSuccessful()) {
             ItemPublicTokenExchangeResponse body = response.body();
             AccessToken accessToken = new AccessToken(
                     body.getAccessToken(),
                     body.getItemId(),
-                    getUserId()
+                    userId
             );
 
             accessTokenRepository.save(accessToken);
@@ -52,15 +58,5 @@ public class AccessTokenService implements ServiceBase {
         }
 
         return null;
-    }
-
-    @Override
-    public String getUserId() {
-        return userId;
-    }
-
-    @Override
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }
