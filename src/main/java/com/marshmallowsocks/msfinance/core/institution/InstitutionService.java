@@ -1,7 +1,6 @@
 package com.marshmallowsocks.msfinance.core.institution;
 
 import com.marshmallowsocks.msfinance.core.MSPlaidClient;
-import com.marshmallowsocks.msfinance.core.ServiceBase;
 import com.marshmallowsocks.msfinance.data.accesstoken.AccessToken;
 import com.marshmallowsocks.msfinance.data.accesstoken.AccessTokenRepository;
 import com.marshmallowsocks.msfinance.data.institutions.Institution;

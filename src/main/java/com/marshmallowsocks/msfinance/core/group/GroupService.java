@@ -1,6 +1,5 @@
 package com.marshmallowsocks.msfinance.core.group;
 
-import com.marshmallowsocks.msfinance.core.ServiceBase;
 import com.marshmallowsocks.msfinance.core.response.CreateGroupResponse;
 import com.marshmallowsocks.msfinance.data.groups.Group;
 import com.marshmallowsocks.msfinance.data.groups.GroupRepository;
@@ -29,7 +28,6 @@ public class GroupService {
                 accounts,
                 userId)
         );
-
         return new CreateGroupResponse(false, group.getId(), "Successfully created group.");
     }
 
