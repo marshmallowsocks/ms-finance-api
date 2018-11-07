@@ -2,7 +2,6 @@ package com.marshmallowsocks.msfinance.auth;
 
 import com.marshmallowsocks.msfinance.auth.service.TokenAuthenticationService;
 import com.marshmallowsocks.msfinance.auth.token.JwtToken;
-import com.marshmallowsocks.msfinance.auth.token.JwtTokenManager;
 import com.marshmallowsocks.msfinance.auth.token.TokenService;
 import com.marshmallowsocks.msfinance.user.model.User;
 import com.marshmallowsocks.msfinance.user.service.UserService;
@@ -11,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -42,16 +40,16 @@ public class TokenAuthenticationServiceTest {
     @Mock
     private User user;
 
-    @Spy
-    private JwtTokenManager jwtTokenManager;
-
     @InjectMocks
     private TokenAuthenticationService tokenAuthenticationService;
+
+    private static String gensalt;
 
     @Before
     public void setup() {
         Map<String, String> userAttributes = new HashMap<>();
         userAttributes.put("username", "A user");
+        gensalt = BCrypt.gensalt();
 
         when(jwtToken.getToken()).thenReturn("A valid token");
         when(jwtToken.getExpirationMillis()).thenReturn(1000L);
@@ -60,11 +58,11 @@ public class TokenAuthenticationServiceTest {
         when(jwtTokenService.expiring(any(Map.class)))
                 .thenReturn(jwtToken);
 
-        doCallRealMethod().when(jwtTokenService)
+        doNothing().when(jwtTokenService)
                 .invalidate(any(JwtToken.class));
 
         when(user.getUsername()).thenReturn("A user");
-        when(user.getPassword()).thenReturn(BCrypt.hashpw("A password", BCrypt.gensalt()));
+        when(user.getPassword()).thenReturn(BCrypt.hashpw("A password", gensalt));
         when(mongoUserService.findByUserName("A user"))
                 .thenReturn(Optional.of(user));
     }
@@ -104,7 +102,7 @@ public class TokenAuthenticationServiceTest {
         user = userOptional.get();
         verify(jwtTokenService, times(1)).verify(eq("A valid token"));
         assertEquals(user.getUsername(), "A user");
-        assertEquals(user.getPassword(), BCrypt.hashpw("A password", BCrypt.gensalt()));
+        assertEquals(user.getPassword(), BCrypt.hashpw("A password", gensalt));
     }
 
     @Test
@@ -113,6 +111,6 @@ public class TokenAuthenticationServiceTest {
         tokenAuthenticationService.logout("A valid token");
 
         // assert
-        assertTrue(jwtTokenManager.isInvalid("A valid token"));
+        verify(jwtTokenService, times(1)).invalidate(any(JwtToken.class));
     }
 }
