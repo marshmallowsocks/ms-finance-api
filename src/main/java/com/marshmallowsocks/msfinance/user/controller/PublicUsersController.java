@@ -7,6 +7,7 @@ import com.marshmallowsocks.msfinance.user.service.UserService;
 import com.marshmallowsocks.msfinance.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,6 +40,6 @@ public class PublicUsersController {
     public JwtToken login(@RequestBody UserRequest userRequest) {
         return authenticationService
                 .login(userRequest.getUsername(), userRequest.getPassword())
-                .orElseThrow(() -> new RuntimeException("invalid login and/or password"));
+                .orElseThrow(() -> new BadCredentialsException("invalid login and/or password"));
     }
 }
