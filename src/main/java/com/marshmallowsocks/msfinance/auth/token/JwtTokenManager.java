@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
 public class JwtTokenManager {
 
     private Set<JwtToken> invalidTokens;
@@ -34,7 +33,12 @@ public class JwtTokenManager {
         if(finalMaybeToken.isPresent()) {
             JwtToken finalToken = finalMaybeToken.get();
             invalidTokens.removeAll(maybeTokens);
-            invalidTokens.add(finalToken);
+            if(finalToken.getExpirationMillis() < token.getExpirationMillis()) {
+                invalidTokens.add(finalToken);
+            }
+            else {
+                invalidTokens.add(token);
+            }
         }
 
         else {
@@ -44,6 +48,7 @@ public class JwtTokenManager {
         // nothing to do, min returns null on empty set.
     }
 
+    @SuppressWarnings("WeakerAccess")
     public boolean isInvalid(String token) {
         return invalidTokens
             .stream()
