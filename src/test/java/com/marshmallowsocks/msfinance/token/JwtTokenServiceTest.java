@@ -1,7 +1,7 @@
 package com.marshmallowsocks.msfinance.token;
 
-import com.marshmallowsocks.msfinance.auth.token.JwtTokenManager;
-import com.marshmallowsocks.msfinance.auth.token.JwtTokenService;
+import com.marshmallowsocks.msfinance.auth.token.manager.JwtTokenManager;
+import com.marshmallowsocks.msfinance.auth.token.service.JwtTokenService;
 import com.marshmallowsocks.msfinance.auth.token.model.JwtToken;
 import com.marshmallowsocks.msfinance.util.DateService;
 import com.marshmallowsocks.msfinance.util.JodaDateService;
@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.marshmallowsocks.msfinance.auth.token;
+package com.marshmallowsocks.msfinance.auth.token.provider;
 
 import com.marshmallowsocks.msfinance.auth.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;

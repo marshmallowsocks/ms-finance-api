@@ -1,7 +1,7 @@
-package com.marshmallowsocks.msfinance.config.security;
+package com.marshmallowsocks.msfinance.config.security.autoconfiguration;
 
-import com.marshmallowsocks.msfinance.auth.token.TokenAuthenticationProvider;
-import com.marshmallowsocks.msfinance.auth.token.TokenAuthenticationFilter;
+import com.marshmallowsocks.msfinance.auth.token.provider.TokenAuthenticationProvider;
+import com.marshmallowsocks.msfinance.auth.token.filter.TokenAuthenticationFilter;
 
 import com.marshmallowsocks.msfinance.config.CorsFilter;
 import com.marshmallowsocks.msfinance.config.NoRedirectStrategy;

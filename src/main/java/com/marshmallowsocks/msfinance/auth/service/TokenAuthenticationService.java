@@ -1,7 +1,7 @@
 package com.marshmallowsocks.msfinance.auth.service;
 
 import com.marshmallowsocks.msfinance.auth.token.model.JwtToken;
-import com.marshmallowsocks.msfinance.auth.token.TokenService;
+import com.marshmallowsocks.msfinance.auth.token.service.TokenService;
 import com.marshmallowsocks.msfinance.user.model.User;
 import com.marshmallowsocks.msfinance.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

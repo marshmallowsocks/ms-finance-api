@@ -1,5 +1,6 @@
-package com.marshmallowsocks.msfinance.auth.token;
+package com.marshmallowsocks.msfinance.auth.token.service;
 
+import com.marshmallowsocks.msfinance.auth.token.manager.JwtTokenManager;
 import com.marshmallowsocks.msfinance.auth.token.model.JwtToken;
 import com.marshmallowsocks.msfinance.util.DateService;
 import io.jsonwebtoken.*;

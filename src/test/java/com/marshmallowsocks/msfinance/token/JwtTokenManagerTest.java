@@ -1,7 +1,7 @@
 package com.marshmallowsocks.msfinance.token;
 
 import com.marshmallowsocks.msfinance.auth.token.model.JwtToken;
-import com.marshmallowsocks.msfinance.auth.token.JwtTokenManager;
+import com.marshmallowsocks.msfinance.auth.token.manager.JwtTokenManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

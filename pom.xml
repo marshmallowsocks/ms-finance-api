@@ -107,6 +107,7 @@
 					<excludes>
 						<exclude>com/marshmallowsocks/msfinance/**/model/*</exclude>
 						<exclude>com/marshmallowocks/msfinance/**/autoconfiguration/*</exclude>
+                        <exclude>com/marshmallowsocks/msfinance/**/provider/*TokenAuth*</exclude>
                         <exclude>com/marshmallowsocks/msfinance/data/**</exclude>
 					</excludes>
 				</configuration>

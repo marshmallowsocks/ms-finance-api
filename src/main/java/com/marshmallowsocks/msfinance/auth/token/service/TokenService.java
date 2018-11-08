@@ -1,4 +1,4 @@
-package com.marshmallowsocks.msfinance.auth.token;
+package com.marshmallowsocks.msfinance.auth.token.service;
 
 import com.marshmallowsocks.msfinance.auth.token.model.JwtToken;
 

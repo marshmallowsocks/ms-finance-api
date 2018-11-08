@@ -1,4 +1,4 @@
-package com.marshmallowsocks.msfinance.auth.token;
+package com.marshmallowsocks.msfinance.auth.token.manager;
 
 import com.marshmallowsocks.msfinance.auth.token.model.JwtToken;
 import org.springframework.scheduling.annotation.Scheduled;
