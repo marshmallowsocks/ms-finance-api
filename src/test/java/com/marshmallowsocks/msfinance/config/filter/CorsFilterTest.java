@@ -73,4 +73,18 @@ public class CorsFilterTest {
         // assert
         Assert.assertEquals(response.getStatus(), HttpServletResponse.SC_OK);
     }
+
+    @Test
+    public void doInit_nothing() throws ServletException {
+        // for coverage
+        corsFilter.init(null);
+        Assert.assertTrue(true);
+    }
+
+    @Test
+    public void doDestroy_nothing() {
+        // for coverage
+        corsFilter.destroy();
+        Assert.assertTrue(true);
+    }
 }

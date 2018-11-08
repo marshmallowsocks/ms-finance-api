@@ -23,9 +23,11 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 
-		<commons-lang.version>3.6</commons-lang.version>
+		<commons-lang.version>3.8</commons-lang.version>
 		<jwt.version>0.9.0</jwt.version>
 		<joda-time.version>2.9.9</joda-time.version>
+        <graphql.sqpr.version>0.9.8</graphql.sqpr.version>
+        <plaid.version>3.0.4</plaid.version>
 	</properties>
 
 	<dependencies>
@@ -65,13 +67,13 @@
         <dependency>
             <groupId>com.plaid</groupId>
             <artifactId>plaid-java</artifactId>
-            <version>3.0.4</version>
+            <version>${plaid.version}</version>
         </dependency>
 
 		<dependency>
 			<groupId>io.leangen.graphql</groupId>
 			<artifactId>spqr</artifactId>
-			<version>0.9.8</version>
+			<version>${graphql.sqpr.version}</version>
 		</dependency>
 
         <!-- test -->
