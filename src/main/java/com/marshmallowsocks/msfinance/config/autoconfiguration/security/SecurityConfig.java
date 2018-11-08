@@ -1,9 +1,9 @@
-package com.marshmallowsocks.msfinance.config.security.autoconfiguration;
+package com.marshmallowsocks.msfinance.config.autoconfiguration.security;
 
 import com.marshmallowsocks.msfinance.auth.token.provider.TokenAuthenticationProvider;
 import com.marshmallowsocks.msfinance.auth.token.filter.TokenAuthenticationFilter;
 
-import com.marshmallowsocks.msfinance.config.CorsFilter;
+import com.marshmallowsocks.msfinance.config.filter.CorsFilter;
 import com.marshmallowsocks.msfinance.config.NoRedirectStrategy;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

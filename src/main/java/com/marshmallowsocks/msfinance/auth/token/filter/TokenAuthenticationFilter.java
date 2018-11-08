@@ -24,6 +24,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
     public TokenAuthenticationFilter(final RequestMatcher requestMatcher) {
         super(requestMatcher);
     }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         final String param = Optional.ofNullable(request.getHeader(AUTHORIZATION))

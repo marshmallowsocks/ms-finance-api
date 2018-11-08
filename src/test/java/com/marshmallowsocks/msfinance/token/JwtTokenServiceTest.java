@@ -127,4 +127,14 @@ public class JwtTokenServiceTest {
         // assert again
         Assert.assertTrue(claims.isEmpty());
     }
+
+    @Test
+    public void token_Untrusted_verify() {
+
+        // act
+        Map<String, String> claims = jwtTokenService.untrusted("a token");
+
+        // assert
+        Assert.assertTrue(claims.isEmpty());
+    }
 }

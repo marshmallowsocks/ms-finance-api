@@ -1,4 +1,4 @@
-package com.marshmallowsocks.msfinance.config;
+package com.marshmallowsocks.msfinance.config.filter;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;

@@ -1,4 +1,4 @@
-package com.marshmallowsocks.msfinance.config.date.autoconfiguration;
+package com.marshmallowsocks.msfinance.config.autoconfiguration.date;
 
 import com.marshmallowsocks.msfinance.util.DateService;
 import com.marshmallowsocks.msfinance.util.JodaDateService;

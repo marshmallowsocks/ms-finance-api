@@ -1,6 +1,6 @@
 package com.marshmallowsocks.msfinance.core;
 
-import com.marshmallowsocks.msfinance.config.PlaidConfiguration;
+import com.marshmallowsocks.msfinance.config.autoconfiguration.core.PlaidConfiguration;
 import com.plaid.client.PlaidClient;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.TransactionsGetRequest;
