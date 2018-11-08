@@ -39,7 +39,7 @@ public class SecuredUsersControllerTest {
 
     @Test
     public void logout_goodCredentials_alwaysSuccess() {
-        // act and assert 
+        // act and assert
         assertTrue(securedUsersController.logout(request));
     }
 
