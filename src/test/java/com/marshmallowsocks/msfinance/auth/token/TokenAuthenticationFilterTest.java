@@ -1,4 +1,4 @@
-package com.marshmallowsocks.msfinance.token;
+package com.marshmallowsocks.msfinance.auth.token;
 
 import com.marshmallowsocks.msfinance.auth.token.filter.TokenAuthenticationFilter;
 import org.junit.Assert;
@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;

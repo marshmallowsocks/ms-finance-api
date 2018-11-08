@@ -28,14 +28,6 @@ final class SecuredUsersController {
         this.authenticationService = authenticationService;
     }
 
-    @GetMapping("/current")
-    User getCurrent(@AuthenticationPrincipal final User user) {
-        // do not return the id and password, obviously
-        return new User.Builder()
-                .withUserName(user.getUsername())
-                .build();
-    }
-
     @GetMapping("/logout")
     boolean logout(HttpServletRequest request) {
         final String param = Optional.ofNullable(request.getHeader(AUTHORIZATION))
