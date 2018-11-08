@@ -106,7 +106,8 @@
 				<configuration>
 					<excludes>
 						<exclude>com/marshmallowsocks/msfinance/**/model/*</exclude>
-						<exclude>com/marshmallowsocks/msfinance/data/**</exclude>
+						<exclude>com/marshmallowocks/msfinance/**/autoconfiguration/*</exclude>
+                        <exclude>com/marshmallowsocks/msfinance/data/**</exclude>
 					</excludes>
 				</configuration>
                 <executions>

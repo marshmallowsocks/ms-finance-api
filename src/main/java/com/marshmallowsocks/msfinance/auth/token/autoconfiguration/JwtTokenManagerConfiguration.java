@@ -1,4 +1,4 @@
-package com.marshmallowsocks.msfinance.auth.token.configuration;
+package com.marshmallowsocks.msfinance.auth.token.autoconfiguration;
 
 import com.marshmallowsocks.msfinance.auth.token.JwtTokenManager;
 import org.springframework.context.annotation.Bean;

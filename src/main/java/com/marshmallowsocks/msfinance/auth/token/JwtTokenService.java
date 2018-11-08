@@ -28,11 +28,11 @@ public class JwtTokenService implements Clock, TokenService {
     private int clockSkewSec;
     private String secretKey;
 
-    @Autowired
     private JwtTokenManager tokenManager;
 
     public JwtTokenService(
-            final DateService dateService,
+            @Autowired final DateService dateService,
+            @Autowired final JwtTokenManager jwtTokenManager,
             @Value("${jwt.issuer:ms-finance}") String issuer,
             @Value("${jwt.expiration-sec:1800}") int expirationSec,
             @Value("${jwt.clock-skew-sec:300}") int clockSkewSec,
@@ -42,6 +42,7 @@ public class JwtTokenService implements Clock, TokenService {
         this.expirationSec = expirationSec;
         this.clockSkewSec = clockSkewSec;
         this.secretKey = secretKey;
+        this.tokenManager = jwtTokenManager;
     }
 
     @Override

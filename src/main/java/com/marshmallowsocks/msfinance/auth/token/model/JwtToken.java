@@ -26,6 +26,10 @@ public class JwtToken {
     }
 
     public boolean isExpired() {
-        return System.currentTimeMillis() > expirationMillis;
+        return System.currentTimeMillis() > expirationMillis && expirationMillis != -1;
+    }
+
+    public boolean isPermanent() {
+        return expirationMillis == -1;
     }
 }
