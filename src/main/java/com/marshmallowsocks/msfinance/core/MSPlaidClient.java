@@ -20,6 +20,8 @@ public class MSPlaidClient {
 
     private PlaidClient client;
 
+    public MSPlaidClient() {}
+
     @Autowired
     public MSPlaidClient(PlaidConfiguration plaidConfiguration) {
         client = PlaidClient
