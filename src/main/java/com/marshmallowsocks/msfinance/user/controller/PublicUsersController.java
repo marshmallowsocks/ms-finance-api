@@ -1,7 +1,7 @@
 package com.marshmallowsocks.msfinance.user.controller;
 
 import com.marshmallowsocks.msfinance.auth.service.AuthenticationService;
-import com.marshmallowsocks.msfinance.auth.token.JwtToken;
+import com.marshmallowsocks.msfinance.auth.token.model.JwtToken;
 import com.marshmallowsocks.msfinance.user.model.UserRequest;
 import com.marshmallowsocks.msfinance.user.service.UserService;
 import com.marshmallowsocks.msfinance.user.model.User;
@@ -36,6 +36,7 @@ public class PublicUsersController {
         return login(userRequest);
     }
 
+    @SuppressWarnings("WeakerAccess")
     @PostMapping("/login")
     public JwtToken login(@RequestBody UserRequest userRequest) {
         return authenticationService

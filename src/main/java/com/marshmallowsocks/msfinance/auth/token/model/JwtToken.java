@@ -1,4 +1,4 @@
-package com.marshmallowsocks.msfinance.auth.token;
+package com.marshmallowsocks.msfinance.auth.token.model;
 
 public class JwtToken {
     private String token;

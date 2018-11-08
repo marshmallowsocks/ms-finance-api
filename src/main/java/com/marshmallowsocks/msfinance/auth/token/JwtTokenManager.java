@@ -1,7 +1,7 @@
 package com.marshmallowsocks.msfinance.auth.token;
 
+import com.marshmallowsocks.msfinance.auth.token.model.JwtToken;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;

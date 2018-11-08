@@ -1,7 +1,7 @@
 package com.marshmallowsocks.msfinance.auth;
 
 import com.marshmallowsocks.msfinance.auth.service.TokenAuthenticationService;
-import com.marshmallowsocks.msfinance.auth.token.JwtToken;
+import com.marshmallowsocks.msfinance.auth.token.model.JwtToken;
 import com.marshmallowsocks.msfinance.auth.token.TokenService;
 import com.marshmallowsocks.msfinance.user.model.User;
 import com.marshmallowsocks.msfinance.user.service.UserService;
@@ -45,6 +45,7 @@ public class TokenAuthenticationServiceTest {
 
     private static String gensalt;
 
+    @SuppressWarnings("unchecked")
     @Before
     public void setup() {
         Map<String, String> userAttributes = new HashMap<>();
