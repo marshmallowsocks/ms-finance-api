@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 import retrofit2.Response;
 
 import java.util.ArrayList;
@@ -46,11 +47,7 @@ public class AccessTokenServiceTest {
     @Mock
     private DataFetchingEnvironment dataFetchingEnvironment;
 
-    @Mock
     private Response<ItemPublicTokenExchangeResponse> response;
-
-    @Mock
-    private ItemPublicTokenExchangeResponse accessTokenResponse;
 
     private ResolutionEnvironment environment;
 
@@ -58,15 +55,20 @@ public class AccessTokenServiceTest {
     private AccessTokenService accessTokenService;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         List<AccessToken> accessTokens = new ArrayList<>();
         for(int i = 0; i < 5; i++) {
             accessTokens.add(ModelObjectFactory.randomAccessToken());
         }
 
         when(accessTokenRepository.findByUserId("1234")).thenReturn(accessTokens);
+        
         when(dataFetchingEnvironment.getContext()).thenReturn("1234");
 
+        ItemPublicTokenExchangeResponse accessTokenResponse = new ItemPublicTokenExchangeResponse();
+        ReflectionTestUtils.setField(accessTokenResponse, "accessToken", "access token");
+        ReflectionTestUtils.setField(accessTokenResponse, "itemId", "item token");
+        response = Response.success(accessTokenResponse);
         environment = new ResolutionEnvironment(dataFetchingEnvironment, valueMapper, globalEnvironment);
     }
 
@@ -81,15 +83,11 @@ public class AccessTokenServiceTest {
         result.forEach(a -> Assert.assertNull(a.getUserId()));
     }
 
-    //@Test
+    @Test
     public void exchangePublicToken_shouldReturnAccessToken() {
 
         // arrange
-        //when(msPlaidClient.exchangePublicToken(anyString())).thenReturn(response);
-        when(response.isSuccessful()).thenReturn(true);
-        when(response.body()).thenReturn(accessTokenResponse);
-        when(accessTokenResponse.getAccessToken()).thenReturn("access token");
-        when(accessTokenResponse.getItemId()).thenReturn("item token");
+        when(msPlaidClient.exchangePublicToken(anyString())).thenReturn(response);
         AccessToken expectedToken = new AccessToken("access token", "item token", "1234");
 
         // act

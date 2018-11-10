@@ -1,6 +1,8 @@
 package com.marshmallowsocks.msfinance.data.institutions;
 
 import io.leangen.graphql.annotations.GraphQLQuery;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 
 public class Institution {
@@ -85,5 +87,35 @@ public class Institution {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Institution that = (Institution) o;
+
+        return new EqualsBuilder()
+                .append(getId(), that.getId())
+                .append(getName(), that.getName())
+                .append(getInstitutionId(), that.getInstitutionId())
+                .append(getItemToken(), that.getItemToken())
+                .append(getProducts(), that.getProducts())
+                .append(getUserId(), that.getUserId())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(getId())
+                .append(getName())
+                .append(getInstitutionId())
+                .append(getItemToken())
+                .append(getProducts())
+                .append(getUserId())
+                .toHashCode();
     }
 }

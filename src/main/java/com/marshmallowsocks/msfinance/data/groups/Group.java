@@ -1,6 +1,8 @@
 package com.marshmallowsocks.msfinance.data.groups;
 
 import io.leangen.graphql.annotations.GraphQLQuery;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
@@ -62,5 +64,31 @@ public class Group {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Group group = (Group) o;
+
+        return new EqualsBuilder()
+                .append(getId(), group.getId())
+                .append(getName(), group.getName())
+                .append(getAccounts(), group.getAccounts())
+                .append(getUserId(), group.getUserId())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(getId())
+                .append(getName())
+                .append(getAccounts())
+                .append(getUserId())
+                .toHashCode();
     }
 }

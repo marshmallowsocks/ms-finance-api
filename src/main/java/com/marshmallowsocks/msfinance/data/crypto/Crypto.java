@@ -1,6 +1,8 @@
 package com.marshmallowsocks.msfinance.data.crypto;
 
 import io.leangen.graphql.annotations.GraphQLQuery;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 
 public class Crypto {
@@ -86,5 +88,35 @@ public class Crypto {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Crypto crypto = (Crypto) o;
+
+        return new EqualsBuilder()
+                .append(getId(), crypto.getId())
+                .append(getCryptoId(), crypto.getCryptoId())
+                .append(getName(), crypto.getName())
+                .append(getSymbol(), crypto.getSymbol())
+                .append(getHoldings(), crypto.getHoldings())
+                .append(getUserId(), crypto.getUserId())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(getId())
+                .append(getCryptoId())
+                .append(getName())
+                .append(getSymbol())
+                .append(getHoldings())
+                .append(getUserId())
+                .toHashCode();
     }
 }

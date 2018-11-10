@@ -1,6 +1,8 @@
 package com.marshmallowsocks.msfinance.data.accesstoken;
 
 import io.leangen.graphql.annotations.GraphQLQuery;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 
 public class AccessToken {
@@ -62,5 +64,31 @@ public class AccessToken {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AccessToken that = (AccessToken) o;
+
+        return new EqualsBuilder()
+                .append(getId(), that.getId())
+                .append(getAccessToken(), that.getAccessToken())
+                .append(getItemToken(), that.getItemToken())
+                .append(getUserId(), that.getUserId())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(getId())
+                .append(getAccessToken())
+                .append(getItemToken())
+                .append(getUserId())
+                .toHashCode();
     }
 }
