@@ -8,6 +8,8 @@ import io.leangen.graphql.metadata.strategy.value.ValueMapper;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import okio.BufferedSource;
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -52,5 +54,10 @@ public class ServiceBaseTest {
                 return null;
             }
         };
+    }
+
+    @Test
+    public void nothing() {
+        Assert.assertTrue(true);
     }
 }
