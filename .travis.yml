@@ -1,5 +1,5 @@
 language: java
 before_install:
   - chmod +x mvnw
-after_success:
+script:
   - mvn clean test jacoco:report coveralls:report
