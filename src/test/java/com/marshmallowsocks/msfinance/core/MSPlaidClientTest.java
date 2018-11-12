@@ -129,4 +129,22 @@ public class MSPlaidClientTest extends ServiceBaseTest {
         verify(transactionsGetRequest, times(1)).execute();
         Assert.assertThat(result.body(), IsInstanceOf.instanceOf(TransactionsGetResponse.class));
     }
+
+    @Test
+    public void getTransactionsFor_invalid() throws IOException {
+
+        // arrange
+        PlaidClient client = msPlaidClient.client();
+        ReflectionTestUtils.setField(client, "plaidApiService", service);
+        when(transactionsGetRequest.execute())
+                .thenThrow(new IOException());
+        // act
+        Response<TransactionsGetResponse> result = msPlaidClient.getTransactionsFor("access token");
+
+        // assert
+        verify(service, times(1))
+                .transactionsGet(any(TransactionsGetRequest.class));
+        verify(transactionsGetRequest, times(1)).execute();
+        Assert.assertNull(result);
+    }
 }
