@@ -2,8 +2,10 @@ package com.marshmallowsocks.msfinance.core;
 
 import com.marshmallowsocks.msfinance.config.autoconfiguration.core.PlaidConfiguration;
 import com.plaid.client.PlaidClient;
+import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.TransactionsGetRequest;
+import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import org.joda.time.DateTime;
@@ -63,6 +65,18 @@ public class MSPlaidClient {
                             )
                     ).execute();
         } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public Response<AccountsGetResponse> getAccountsFor(String accessToken) {
+        try {
+            return client.service()
+                    .accountsGet(
+                            new AccountsGetRequest(accessToken)
+                    ).execute();
+        }
+        catch (IOException e) {
             return null;
         }
     }

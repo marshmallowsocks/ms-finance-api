@@ -5,6 +5,7 @@ import com.marshmallowsocks.msfinance.data.accesstoken.AccessToken;
 import com.marshmallowsocks.msfinance.data.accesstoken.AccessTokenRepository;
 import com.marshmallowsocks.msfinance.data.institutions.Institution;
 import com.marshmallowsocks.msfinance.data.institutions.InstitutionRepository;
+import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import io.leangen.graphql.annotations.GraphQLEnvironment;
 import io.leangen.graphql.annotations.GraphQLQuery;
@@ -48,6 +49,21 @@ public class InstitutionService {
         if(token.isPresent()) {
             AccessToken t = token.get();
             Response<TransactionsGetResponse> response = msPlaidClient.getTransactionsFor(t.getAccessToken());
+            if(response.isSuccessful()) {
+                return response.body();
+            }
+        }
+        LOGGER.warn("Token was not found.");
+        return null;
+    }
+
+    @GraphQLQuery(name = "accountsForItem")
+    public AccountsGetResponse getAccountsForItem(String itemToken) {
+        LOGGER.info("getAccountsForItem invoked for itemToken:" + itemToken);
+        Optional<AccessToken> token = accessTokenRepository.findByItemToken(itemToken);
+        if(token.isPresent()) {
+            AccessToken t = token.get();
+            Response<AccountsGetResponse> response = msPlaidClient.getAccountsFor(t.getAccessToken());
             if(response.isSuccessful()) {
                 return response.body();
             }
